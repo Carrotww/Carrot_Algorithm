@@ -1,3 +1,5 @@
+# https://www.notion.so/3-83a14432311c401598ce3c05e3be25c4
+
 input = [4, 6, 2, 9, 1]
 
 def bubble_sort(array):

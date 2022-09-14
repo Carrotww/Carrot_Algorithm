@@ -1,3 +1,5 @@
+# https://www.notion.so/2-9e5eccb6b7ce4c4ba028dae6ad135830
+
 class Node:
     def __init__(self, data):
         self.data = data
