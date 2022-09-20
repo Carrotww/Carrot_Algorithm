@@ -26,11 +26,7 @@ def string_compression(string):
 
         result.append(len(temp))
 
-    min_re = result[0]
-    for i in result:
-        if i < min_re:
-            min_re = i
-    return min_re
+    return min(result)
 
 
 print(string_compression(input))  # 14
