@@ -1,23 +1,31 @@
 # https://school.programmers.co.kr/learn/courses/30/lessons/42862
 
 def solution(n, lost, reserve):
-    cnt = 0
-    lost_temp = [x for x in lost if x not in reserve]
-    reserve_temp = [x for x in reserve if x not in lost]
-
-    lost_temp.sort()
-    reserve_temp.sort()
+    temp = [1 for _ in range(n + 2)]
+    temp[0] = 0
+    temp[-1] = 0
+    for lo in lost:
+        temp[lo] = 0
     
-    for lo in lost_temp:
-        for i in range(len(reserve_temp)):
-            if lo - 1 == reserve[i] or lo + 1 == reserve[i]:
-                reserve[i] = -1
-                break
-        else:
-            cnt += 1
+    for re in reserve:
+        if temp[re] == 0:
+            temp[re] = 1
+            continue
+        temp[re] = 2
     
-    return n - cnt
+    n_lost = [x for x in range(1, n + 1) if temp[x] == 0]
 
+    for lo in n_lost:
+        if temp[lo-1] == 2:
+            temp[lo-1] = 1
+            temp[lo] = 1
+        elif temp[lo+1] == 2:
+            temp[lo+1] = 1
+            temp[lo] = 1
+
+    return sum([1 for x in temp if x != 0])
+    
+   
 print(solution(5, [2, 4], [1, 3, 5]))
 print(solution(5, [2, 4], [3]))
 print(solution(3, [3], [1]))
