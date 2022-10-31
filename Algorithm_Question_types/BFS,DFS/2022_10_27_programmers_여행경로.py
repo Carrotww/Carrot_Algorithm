@@ -21,9 +21,11 @@ def solution(tickets):
                     visited.append((start, i))
                     stack.append(i)
                     path.append(i)
-                    print(stack)
                     dfs(visited, path, stack)
     
     result = dfs(visited, path, stack)
     
     return result
+
+print(solution([["ICN", "JFK"], ["HND", "IAD"], ["JFK", "HND"]]))
+print(solution([["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]))
