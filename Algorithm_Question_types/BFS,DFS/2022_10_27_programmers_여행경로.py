@@ -3,17 +3,16 @@
 from collections import defaultdict
 
 def solution(tickets):
-    visited, path, stack = [], [], ["ICN"]
+    visited, path, stack = [], ["ICN"], ["ICN"]
     tic = defaultdict(list)
     for a, b in tickets:
         tic[a].append(b)
     for t in tic.values():
-        t.sort(reverse=True)
+        t.sort()
     
     def dfs(visited, path, stack):
-        if not stack:
-            print('done')
-            return path
+        # if not stack:
+        #     return path
         start = stack.pop()
         if start in tic:
             for i in tic[start]:
@@ -23,9 +22,9 @@ def solution(tickets):
                     path.append(i)
                     dfs(visited, path, stack)
     
-    result = dfs(visited, path, stack)
+    dfs(visited, path, stack)
     
-    return result
+    return path
 
 print(solution([["ICN", "JFK"], ["HND", "IAD"], ["JFK", "HND"]]))
 print(solution([["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]))
