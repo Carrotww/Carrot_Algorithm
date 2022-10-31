@@ -3,28 +3,52 @@
 from collections import defaultdict
 
 def solution(tickets):
-    visited, path, stack = [], ["ICN"], ["ICN"]
     tic = defaultdict(list)
-    for a, b in tickets:
-        tic[a].append(b)
-    for t in tic.values():
-        t.sort()
+    result = []
+
+    for key, val in tickets:
+        tic[key].append(val)
+    for i in tic.values():
+        i.sort(reverse=True)
     
-    def dfs(visited, path, stack):
-        # if not stack:
-        #     return path
-        start = stack.pop()
-        if start in tic:
-            for i in tic[start]:
-                if (start, i) not in visited:
-                    visited.append((start, i))
-                    stack.append(i)
-                    path.append(i)
-                    dfs(visited, path, stack)
+    def dfs(city):
+        while tic[city]:
+            dfs(tic[city].pop())
+        if not tic[city]:
+            result.append(city)
+            return
     
-    dfs(visited, path, stack)
+    dfs("ICN")
+
+    return result
+            
+
+# from collections import defaultdict
+
+# def solution(tickets):
+#     visited, path, stack = [], ["ICN"], ["ICN"]
+#     tic = defaultdict(list)
+#     for a, b in tickets:
+#         tic[a].append(b)
+#     for t in tic.values():
+#         t.sort()
     
-    return path
+#     def dfs(visited, path, stack):
+#         # if not stack:
+#         #     return path
+#         start = stack.pop()
+#         if start in tic:
+#             for i in tic[start]:
+#                 if (start, i) not in visited:
+#                     visited.append((start, i))
+#                     stack.append(i)
+#                     path.append(i)
+#                     dfs(visited, path, stack)
+#                     print(visited)
+    
+#     dfs(visited, path, stack)
+    
+    # return path
 
 print(solution([["ICN", "JFK"], ["HND", "IAD"], ["JFK", "HND"]]))
 print(solution([["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]))
