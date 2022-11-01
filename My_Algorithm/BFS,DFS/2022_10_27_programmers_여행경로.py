@@ -11,16 +11,23 @@ def solution(tickets):
     for i in tic.values():
         i.sort(reverse=True)
     
+    print(tic)
+    print()
+    
     def dfs(city):
         while tic[city]:
-            dfs(tic[city].pop())
+            temp = tic[city].pop()
+            print(temp, tic)
+            print()
+            dfs(temp)
         if not tic[city]:
             result.append(city)
+            print(result)
             return
     
     dfs("ICN")
 
-    return result
+    return result[::-1]
             
 
 # from collections import defaultdict
@@ -48,7 +55,8 @@ def solution(tickets):
     
 #     dfs(visited, path, stack)
     
-    # return path
+#     return path
 
-print(solution([["ICN", "JFK"], ["HND", "IAD"], ["JFK", "HND"]]))
-print(solution([["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]))
+print(solution([['ICN', 'A'], ['A', 'B'], ['A', 'C'], ['C', 'A'], ['B', 'D']]))
+# print(solution([["ICN", "JFK"], ["HND", "IAD"], ["JFK", "HND"]]))
+# print(solution([["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]))
