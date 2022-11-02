@@ -11,17 +11,10 @@ def solution(tickets):
     for i in tic.values():
         i.sort(reverse=True)
     
-    print(tic)
-    print()
-    
     def dfs(city):
         while tic[city]:
-            temp = tic[city].pop()
-            dfs(temp) # , ,
-        if not tic[city]: # "D", "B", "A", "C", "A", "ICN"
-            result.append(city)
-            print(result)
-            return
+            dfs(tic[city].pop())
+        result.append(city)
     
     dfs("ICN")
 
@@ -56,5 +49,5 @@ def solution(tickets):
 #     return path
 
 print(solution([['ICN', 'A'], ['A', 'B'], ['A', 'C'], ['C', 'A'], ['B', 'D']]))
-# print(solution([["ICN", "JFK"], ["HND", "IAD"], ["JFK", "HND"]]))
-# print(solution([["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]))
+print(solution([["ICN", "JFK"], ["HND", "IAD"], ["JFK", "HND"]]))
+print(solution([["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]))
