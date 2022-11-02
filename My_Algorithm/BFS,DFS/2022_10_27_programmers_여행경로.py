@@ -17,10 +17,8 @@ def solution(tickets):
     def dfs(city):
         while tic[city]:
             temp = tic[city].pop()
-            print(temp, tic)
-            print()
-            dfs(temp)
-        if not tic[city]:
+            dfs(temp) # , ,
+        if not tic[city]: # "D", "B", "A", "C", "A", "ICN"
             result.append(city)
             print(result)
             return
