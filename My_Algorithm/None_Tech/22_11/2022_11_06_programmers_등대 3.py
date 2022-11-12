@@ -15,12 +15,12 @@ def solution(n, lighthouse):
     
     result = 0
     while path_dict:
-        for end_node, center_node in path_dict.items():
-            if len(center_node) == 1: # val 이 중심, key 가 끝 노드
-                del_val = [x for x in path_dict[center_node[0]]]
-                print(del_val)
-                break
-        break
+        for end_node, side_node in path_dict.items():
+            if len(side_node) == 1: # val 이 중심, key 가 끝 노드
+                del_val = [x for x in path_dict[side_node[0]]] # 끝에 달려있는거 저장
+                del(path_dict[side_node[0]]) # 중심 노드 제거
+                
+
     return result
 
 print(solution(8, [[1, 2], [1, 3], [1, 4], [1, 5], [5, 6], [5, 7], [5, 8]]))
