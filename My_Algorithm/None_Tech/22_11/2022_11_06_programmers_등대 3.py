@@ -16,17 +16,18 @@ def solution(n, lighthouse):
     result = 0
     # while path_dict:
     #     for end_node, side_node in path_dict.items():
-    #         if not side_node:
-    #             del(path_dict[end_node])
+    #         # if not side_node:
+    #         #     # del(path_dict[end_node])
+    #         #     del path_dict[end_node]
     #         if len(side_node) == 1: # val 이 중심, key 가 끝 노드
     #             del_val = [x for x in path_dict[side_node[0]]] # 끝에 달려있는거 저장
     #             need_remove_node = side_node[0]
-    #             del(path_dict[side_node[0]]) # 중심 노드 제거 # 1
+    #             # del(path_dict[side_node[0]]) # 중심 노드 제거 # 1
+    #             del path_dict[side_node[0]]
     #             for key, val in path_dict.items():
     #                 if need_remove_node in val:
     #                     val.remove(need_remove_node)
     #             result += 1
-    #             break
     
     # while path_dict:
     #     for end_node, side_node in path_dict.items():
@@ -38,6 +39,7 @@ def solution(n, lighthouse):
     #     del_list = []
     #     if need_remove_node:
     #         del(path_dict[need_remove_node])
+
     #     for key, val in path_dict.items():
     #         if need_remove_node in val:
     #             val.remove(need_remove_node)
@@ -47,16 +49,21 @@ def solution(n, lighthouse):
     #         del(path_dict[dl])
     #     need_remove_node = 0
 
-    remove_list = []
+    print(path_dict)
+
     while path_dict:
-        for end_node, side_node in path_dict.items():
+        for end_node, side_node in path_dict.copy().items():
             if len(side_node) == 1 and end_node in path_dict:
-                remove_list.append(side_node[0])
-                del(path_dict[side_node[0]])
+                temp = side_node[0]
+                del_node_list = [x for x in path_dict[temp]]
+                del path_dict[temp]
+                for i in del_node_list:
+                    path_dict[i].remove(temp)
+                    if not path_dict[i]:
+                        del path_dict[i]
                 result += 1
-        break
 
     return result
 
 print(solution(8, [[1, 2], [1, 3], [1, 4], [1, 5], [5, 6], [5, 7], [5, 8]]))
-# print(solution(10, [[4, 1], [5, 1], [5, 6], [7, 6], [1, 2], [1, 3], [6, 8], [2, 9], [9, 10]]))
+print(solution(10, [[4, 1], [5, 1], [5, 6], [7, 6], [1, 2], [1, 3], [6, 8], [2, 9], [9, 10]]))
