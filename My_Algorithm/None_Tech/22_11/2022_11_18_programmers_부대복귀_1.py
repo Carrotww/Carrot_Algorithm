@@ -28,3 +28,37 @@ def solution(n, roads, sources, destination):
         if visited[destination] == math.inf:
             result.append(-1)
     return result
+
+'''
+from collections import deque, defaultdict
+
+def solution(n, roads, sources, destination):
+    result = []
+    roads_path = defaultdict(list)
+    for a, b in roads:
+        roads_path[a].append(b)
+        roads_path[b].append(a)
+    
+    for so in sources:
+        queue = deque([so])
+        visited = {x:[-1, -1] for x in range(1, n+1)}
+        visited[so] = [0, 0]
+        # visited[road][0] -> 방문 여부
+        # visited[road][1] -> 거리
+        while queue:
+            cur_road = queue.popleft()
+            cur_path = visited[cur_road][1]
+            # 거리
+            if cur_road == destination:
+                result.append(cur_path)
+                break
+            for nxt_road in roads_path[cur_road]:
+                if visited[nxt_road][0] == -1:
+                    # 방문 여부
+                    queue.append(nxt_road)
+                    visited[nxt_road] = [0, cur_path + 1]
+        if visited[destination][0] == -1:
+            result.append(-1)
+    return result
+                    
+'''
