@@ -1,5 +1,12 @@
 # https://school.programmers.co.kr/learn/courses/30/lessons/43165
 
+# 다시 풀어보는 풀이
+def solution(numbers, target):
+    
+    return 
+
+# 첫 번 째 풀이
+"""
 def solution(numbers, target):
     result = []
     
@@ -17,6 +24,7 @@ def solution(numbers, target):
     dfs(numbers[:], num)
     
     return len(result)
+"""
 
 """
 # 프로그래머스 1등 풀이
