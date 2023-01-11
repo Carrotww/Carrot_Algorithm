@@ -28,6 +28,7 @@ class Solution:
 temp = Solution()
 """
 
+# 투 포인터 이용
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         def expand(left, right):
