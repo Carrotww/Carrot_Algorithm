@@ -2,6 +2,7 @@
 
 from typing import List
 
+# 내 풀이
 class Solution:
     def reorderLogFiles(self, logs: List[str]) -> List[str]:
         alpha_list, num_list = [], []
@@ -24,6 +25,8 @@ class Solution:
         for i in num_list:
             result.append(i[0])
         return result
+
+# 
         
 
 print(Solution().reorderLogFiles(["dig1 8 1 5 1","let1 art can","dig2 3 6","let2 own kit dig","let3 art zero"]))
