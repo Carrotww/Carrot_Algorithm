@@ -1,5 +1,6 @@
 # https://leetcode.com/problems/remove-duplicate-letters/
 
+# 스택
 class Solution:
     def removeDuplicateLetters(self, s: str) -> str:
         import collections
@@ -17,3 +18,5 @@ class Solution:
             stack.append(char)
         
         return ''.join(stack)
+
+# 재귀

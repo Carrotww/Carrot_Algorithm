@@ -20,7 +20,7 @@ class Solution:
         while heap:
             node = heapq.heappop(heap)
             index = node[1]
-            result.next = node[2]
+            result.next = node[2] # 1
 
             result = result.next
             if result.next:
