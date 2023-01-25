@@ -14,3 +14,19 @@ class Solution:
                 result += 1
         
         return result
+
+# counter 사용
+class Solution:
+    def numJewelsInStones(self, jewels: str, stones: str) -> int:
+        result = 0
+        from collections import Counter
+        counter = Counter(stones)
+        for jewel in jewels:
+            result += counter[jewel]
+        
+        return result
+
+# 한줄 풀이
+class Solution:
+    def numJewelsInStones(self, jewels: str, stones: str) -> int:
+        return sum(s in jewels for s in stones)
