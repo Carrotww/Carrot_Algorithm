@@ -17,3 +17,14 @@ def solution(n, money):
         dfs(i, money[i])
     
     return len(temp) % 1000000007
+
+# 두 번째 풀이 품
+def solution(n, money):
+    dp = [0 for _ in range(n + 1)]
+    dp[0] = 1
+    
+    for mon in money:
+        for i in range(mon, n+1):
+            dp[i] = (dp[i] + dp[i - mon]) % 1000000007
+    
+    return dp[-1]
