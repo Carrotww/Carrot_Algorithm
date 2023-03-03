@@ -1,5 +1,6 @@
 # https://school.programmers.co.kr/learn/courses/30/lessons/42898
 
+# 첫 번째 풀이 - 시간 초과
 def solution(m, n, puddles):
     from collections import deque
     dp = [[10001 for _ in range(n)] for _ in range(m)]
