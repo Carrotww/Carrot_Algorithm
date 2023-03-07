@@ -2,6 +2,8 @@
 
 from typing import List
 
+
+# 첫 번째 풀이 - brute force
 class Solution:
     def palindromePairs(self, words: List[str]) -> List[List[int]]:
         def checkpalin(char):
