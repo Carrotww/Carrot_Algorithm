@@ -26,3 +26,30 @@ class Solution:
                     dfs(i, j, matrix[i][j], 1)
         
         return max(result)
+
+# 두 번째 풀이 dfs + dp
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        row, col = len(matrix[0]), len(matrix)
+        dp = [[0] * row for _ in range(col)]
+        dc, dr = [1, -1, 0, 0], [0, 0, -1, 1]
+        result = 0
+
+        def dfs(c, r):
+            if dp[c][r] != 0:
+                return dp[c][r]
+            
+            temp = [0]
+            for i in range(4):
+                n_c, n_r = dc[i]+c, dr[i]+r
+                if n_c >= 0 and n_r >= 0 and n_c < col and n_r < row and matrix[c][r] < matrix[n_c][n_r]:
+                    temp.append(dfs(n_c, n_r))
+            
+            dp[c][r] = max(temp) + 1
+
+            return dp[c][r]
+        for c in range(col):
+            for r in range(row):
+                result = max(result, dfs(c, r))
+        
+        return result
