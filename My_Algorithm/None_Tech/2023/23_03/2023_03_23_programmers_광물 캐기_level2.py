@@ -1,6 +1,5 @@
 # https://school.programmers.co.kr/learn/courses/30/lessons/172927
 
-# 푸는 중
 def solution(picks, minerals):
     result = 0
     
