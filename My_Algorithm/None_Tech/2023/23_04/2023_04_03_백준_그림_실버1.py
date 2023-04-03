@@ -22,13 +22,9 @@ def bfs(x, y):
     result.append(cnt)
     
 if __name__ == "__main__":
-    from collections import deque
-
     n, m = map(int, sys.stdin.readline().split())
     graph = [[0]*m for _ in range(n)]
     visited = copy.deepcopy(graph)
-    queue = deque()
-    queue.append([0, 0])
 
     for i in range(n):
         n_list = list(map(int, sys.stdin.readline().split()))
@@ -45,5 +41,39 @@ if __name__ == "__main__":
                 visited[i][j] = 1
                 bfs(i, j)
 
+    print(len(result) - 1)
+    print(max(result))
+
+import sys
+sys.setrecursionlimit(10000000)
+
+if __name__ == "__main__":
+    n, m = map(int, sys.stdin.readline().split())
+    graph = []
+    for i in range(n):
+        n_list = list(map(int, sys.stdin.readline().split()))
+        graph.append(n_list)
+    
+    dx, dy = [1, -1, 0, 0], [0, 0, 1, -1]
+    result = [0]
+
+    visited = [[0]*m for _ in range(n)]
+
+    def dfs(x, y, cnt):
+        for direct in range(4):
+            n_x, n_y = dx[direct] + x, dy[direct] + y
+            if (n_x < 0 or n_x >= n) or (n_y < 0 or n_y >= m) or visited[n_x][n_y] == 1 or graph[n_x][n_y] == 0:
+                continue
+            visited[n_x][n_y] = 1
+            cnt += dfs(n_x, n_y, 1)
+        
+        return cnt
+    
+    for i in range(n):
+        for j in range(m):
+            if visited[i][j] == 0 and graph[i][j] == 1:
+                visited[i][j] = 1
+                result.append(dfs(i, j, 1))
+    
     print(len(result) - 1)
     print(max(result))
