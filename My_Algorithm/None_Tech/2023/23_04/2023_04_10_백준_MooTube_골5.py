@@ -1,37 +1,34 @@
 # https://www.acmicpc.net/problem/15591
 
-def solution(k, node):
-    temp_list = []
-    for i in graph[node]:
-        temp_list.append(i)
-
-    next_list = temp_list[::]
-    
-    for end_node, cur_weight in temp_list:
-        for next_end_node, next_weight in graph[end_node]:
-            if next_end_node == node:
-                continue
-            next_list.append([next_end_node, min(cur_weight, next_weight)])
-    
-    cnt = 0
-    for end_node, cur_weight in next_list:
-        if cur_weight >= k:
-            cnt += 1
-    return cnt
-
-def solution2(k, node):
-    
-    return
-
 def dfs(k, node):
+    for n_node, weight in graph[node]:
+        # stack.append([n_node, min(weight, graph[])])
+        pass
     
     return
+
+def bfs(k, node):
+    from collections import deque
+    visited = [0] * (n + 1)
+    queue = deque()
+    queue.append(node)
+    visited[node] = 1
+    cnt = 0
+    while queue:
+        cur_node = queue.popleft()
+        for n_node, weight in graph[cur_node]:
+            if visited[n_node] == 1:
+                continue
+            if weight >= k:
+                visited[n_node] = 1
+                queue.append(n_node)
+                cnt += 1
+    return cnt
 
 if __name__ == "__main__":
     import sys
     from collections import defaultdict
     result = []
-    result_solve = []
     graph = defaultdict(list)
     n, q = map(int, sys.stdin.readline().split())
 
@@ -42,10 +39,8 @@ if __name__ == "__main__":
     
     for _ in range(q):
         k, node = map(int, sys.stdin.readline().split())
-        result.append(solution(k, node))
         stack = []
-        dfs(k, node)
-        result_solve.append(stack)
+        result.append(bfs(k, node))
     
     for re in result:
         print(re)
