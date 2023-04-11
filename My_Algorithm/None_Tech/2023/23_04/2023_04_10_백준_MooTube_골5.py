@@ -19,10 +19,19 @@ def solution(k, node):
             cnt += 1
     return cnt
 
+def solution2(k, node):
+    
+    return
+
+def dfs(k, node):
+    
+    return
+
 if __name__ == "__main__":
     import sys
     from collections import defaultdict
     result = []
+    result_solve = []
     graph = defaultdict(list)
     n, q = map(int, sys.stdin.readline().split())
 
@@ -34,6 +43,9 @@ if __name__ == "__main__":
     for _ in range(q):
         k, node = map(int, sys.stdin.readline().split())
         result.append(solution(k, node))
+        stack = []
+        dfs(k, node)
+        result_solve.append(stack)
     
     for re in result:
         print(re)
