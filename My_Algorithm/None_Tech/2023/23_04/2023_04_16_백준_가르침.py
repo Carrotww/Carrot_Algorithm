@@ -52,8 +52,43 @@ def solve():
     print(result)
     return
 
+def solve2():
+    from itertools import combinations
+    import sys
+    N, K = map(int, sys.stdin.readline().split())
+    word_list = [sys.stdin.readline().strip()[4:-4] for _ in range(N)]
+    base_char = {'a', 'n', 't', 'i', 'c'}
+
+    visited = set([])
+
+    for word in word_list:
+        for char in word:
+            if char not in base_char:
+                visited.add(char)
+    
+    visited = list(visited)
+    result = 0
+    
+    if K < 5:
+        print(result)
+    else:
+        K -= 5
+        if K > len(visited):
+            K = len(visited)
+        
+        for com in combinations(visited, K):
+            cnt = 0
+            for word in word_list:
+                for w in word:
+                    if w not in base_char and w not in com:
+                        break
+                else:
+                    cnt += 1
+            result = max(result, cnt)
+        print(result)
+
 if __name__ == "__main__":
-    solve()
+    solve2()
 # 6 6
 # antabcdefgtica
 # antabcdefgtica
