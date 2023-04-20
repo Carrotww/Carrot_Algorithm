@@ -90,8 +90,7 @@
 def solve3():
     import sys
     N, K = map(int, sys.stdin.readline().split())
-    # word_list = [set(sys.stdin.readline().strip()[4:-4]) for _ in range(N)]
-    word_list = [sys.stdin.readline().strip() for _ in range(N)]
+    word_list = [set(sys.stdin.readline().strip()[4:-4]) for _ in range(N)]
     alph = [0] * 26
 
     def dfs(idx, cnt):
@@ -107,8 +106,6 @@ def solve3():
                 if is_read:
                     read_cnt += 1
             result = max(result, read_cnt)
-
-            # return
         
         for i in range(idx, 26):
             if alph[i] == 0:
