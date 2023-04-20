@@ -93,11 +93,9 @@ def solve3():
     # word_list = [set(sys.stdin.readline().strip()[4:-4]) for _ in range(N)]
     word_list = [sys.stdin.readline().strip() for _ in range(N)]
     alph = [0] * 26
-    result = 0
 
     def dfs(idx, cnt):
-        global result
-        
+        nonlocal result
         if K - 5 == cnt:
             read_cnt = 0
             for word in word_list:
@@ -109,6 +107,8 @@ def solve3():
                 if is_read:
                     read_cnt += 1
             result = max(result, read_cnt)
+
+            # return
         
         for i in range(idx, 26):
             if alph[i] == 0:
@@ -122,6 +122,7 @@ def solve3():
         for char in ('a', 'c', 'i', 'n', 't'):
             alph[ord(char) - ord('a')] = 1
         
+        result = 0
         dfs(0, 0)
         print(result)
 
@@ -146,45 +147,3 @@ antazzztica
 antazzztica
 antazzztica
 '''
-
-def solve3():
-    N, K = 9, 8
-    word_list = [set(w[4:-4]) for w in ["antabtica", "antaxtica", "antadtica", "antaetica", "antaftica", "antagtica", "antahtica", "antajtica", "antaktica"]]
-    alph = [0] * 26
-
-    def dfs(idx, cnt):
-        nonlocal result  # Use 'nonlocal' instead of 'global'
-        result = 0
-        
-        if K - 5 == cnt:
-            read_cnt = 0
-            for word in word_list:
-                is_read = True
-                for w in word:
-                    if alph[ord(w) - ord('a')] == 0:
-                        is_read = False
-                        break
-                if is_read:
-                    read_cnt += 1
-            result = max(result, read_cnt)
-            return result
-        
-        for i in range(idx, 26):
-            if alph[i] == 0:
-                alph[i] = 1
-                result = max(result, dfs(i, cnt+1))
-                alph[i] = 0
-                
-        return result
-
-    if K < 5:
-        print(0)
-    else:
-        for char in ('a', 'c', 'i', 'n', 't'):
-            alph[ord(char) - ord('a')] = 1
-    
-        result = dfs(0, 0)
-        print(result)
-
-if __name__ == "__main__":
-    solve3()
