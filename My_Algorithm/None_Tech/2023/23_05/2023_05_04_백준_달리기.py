@@ -65,7 +65,39 @@ def solve2():
         print(k_cnt)
 
 def solve():
-    pass
+    import sys
+    from collections import deque
+
+    dx, dy = [1, -1, 0, 0], [0, 0, 1, -1]
+    N, M, K = map(int, sys.stdin.readline().split())
+    graph = []
+    for _ in range(N):
+        graph.append(list(sys.stdin.readline().strip()))
+    
+    x1, y1, x2, y2 = map(lambda x:int(x)-1, sys.stdin.readline().split())
+    visited = [[float('inf')] * M for _ in range(N)]
+
+    queue = deque()
+    queue.append([x1, y1])
+    visited[x1][y1] = 0
+    
+    while queue:
+        cur_r, cur_c = queue.popleft()
+        for i in range(4):
+            n_r, n_c = cur_r+dx[i], cur_c+dy[i]
+            cnt = 1
+            while cnt <= K and (0 <= n_r < N) and (0 <= n_c < M) and graph[n_r][n_c] != '#' and visited[n_r][n_c] > visited[cur_r][cur_c]:
+                if visited[n_r][n_c] == float('inf'):
+                    queue.append([n_r, n_c])
+                    visited[n_r][n_c] = visited[cur_r][cur_c] + 1
+                n_r += dx[i]
+                n_c += dy[i]
+                cnt += 1
+    
+    if visited[x2][y2] == float('inf'):
+        print(-1)
+    else:
+        print(visited[x2][y2])
 
 if __name__ == "__main__":
     solve()

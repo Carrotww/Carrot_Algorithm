@@ -5,25 +5,27 @@ def solve():
     N = int(sys.stdin.readline())
 
     def check(num):
+        if num == 1:
+            return False
+        for i in range(2, int(num**0.5)+1):
+            if num % i == 0:
+                return False
         
         return True
     
-    start, end = '', ''
-    
-    for i in range(N):
-        if i == 0:
-            start += '1'
-            end += '9'
+    def dfs(num):
+        if len(str(num)) == N:
+            print(num)
         else:
-            start += '0'
-            end += '9'
+            for i in range(10):
+                temp = num*10+i
+                if check(temp):
+                    dfs(temp)
     
-    start, end = int(start), int(end)
-    result = []
-    
-    for i in range(start, end+1):
-        if check(i):
-            result.append(i)
+    dfs(2)
+    dfs(3)
+    dfs(5)
+    dfs(7)
 
 if __name__ == "__main__":
     solve()
