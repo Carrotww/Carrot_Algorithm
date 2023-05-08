@@ -7,29 +7,22 @@ def solve():
 
     LIS = [array[0]]
 
-    def findidx(value):
-        start = 0
-        end = len(LIS) - 1
-        
-        while start <= end:
-            mid = (start + end) // 2
-            if LIS[mid] == value:
-                return mid
-            elif LIS[mid] < value:
-                start = mid + 1
-            else:
-                end = mid
-        
-        return start
-    
     for val in array:
         if LIS[-1] < val:
             LIS.append(val)
         else:
-            idx = findidx(val)
-            LIS[idx] = val
+            left, right = 0, len(LIS)
+            
+            while left < right:
+                mid = (left + right) // 2
+                if LIS[mid] < val:
+                    left = mid + 1
+                else:
+                    right = mid
+            LIS[left] = val
     
     print(len(LIS))
+    print(' '.join([str(x) for x in LIS]))
 
 if __name__ == "__main__":
     solve()
