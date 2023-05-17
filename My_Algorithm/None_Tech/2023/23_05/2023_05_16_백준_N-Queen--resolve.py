@@ -13,7 +13,6 @@ def check(r):
             return False
     return True
 
-
 def dfs(r):
     global answer
     if r == n:
@@ -24,7 +23,6 @@ def dfs(r):
         rows[r] = i
         if check(r):
             dfs(r + 1)
-
 
 dfs(0)
 print(answer)
