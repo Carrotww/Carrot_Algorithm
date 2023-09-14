@@ -9,7 +9,7 @@ def binary_right_index(give_list, target):
             start = mid + 1
         else:
             end = mid
-    return start
+    return end
 
 def binary_left_index(give_list, target):
     start, end = 0, len(give_list)
@@ -20,7 +20,7 @@ def binary_left_index(give_list, target):
             start = mid + 1
         else:
             end = mid
-    return start
+    return end
 
 def solve(give_list, target):
     return binary_right_index(give_list, target) - binary_left_index(give_list, target)
