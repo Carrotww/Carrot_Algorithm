@@ -61,3 +61,4 @@ if __name__ == "__main__":
         snake = [n_s_r, n_s_c, s_d, time+1]
 
     print(time)
+
