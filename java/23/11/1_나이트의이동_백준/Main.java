@@ -32,7 +32,7 @@ public class Main {
     }
 
     private static int bfs(int r, int c) {
-        List<Integer> queue = new LinkedList<>();
+        Queue<int[]> queue = new LinkedList<>();
         int[][] visited = new int[n][n];
         for (int i = 0; i < n; i++) {
             Arrays.fill(visited[i], -1);
