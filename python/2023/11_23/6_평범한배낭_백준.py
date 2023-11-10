@@ -23,6 +23,4 @@ if __name__ == "__main__":
                 else:
                     dp[i][j] = max(dp[i-1][j], dp[i-1][j-w] + v)
 
-    from pprint import pprint
-    pprint(dp)
     print(dp[-1][-1])
