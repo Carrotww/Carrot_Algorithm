@@ -18,3 +18,4 @@ if __name__ == "__main__":
             result += (distance * height)
         stack.append(i)
     print(result)
+
