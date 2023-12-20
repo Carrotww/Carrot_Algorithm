@@ -32,10 +32,9 @@ if __name__ == "__main__":
         
         if cur_node in graph:
             for i in graph[cur_node]:
-                if i in topology:
-                    topology[i] -= 1
-                    if topology[i] == 0:
-                        queue.append(i)
+                topology[i] -= 1
+                if topology[i] == 0:
+                    queue.append(i)
             graph[cur_node] = []
     print(' '.join([str(x) for x in result]))
 
