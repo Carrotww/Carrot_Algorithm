@@ -1,3 +1,4 @@
+# https://www.acmicpc.net/problem/2580
 
 def is_empty():
     for i in range(9):
