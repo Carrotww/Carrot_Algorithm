@@ -19,6 +19,8 @@ if __name__ == "__main__":
     result = max(dp)
     max_idx = dp.index(result)
     result_list = [ary[max_idx]]
+
+    print(dp)
     
     temp = result
     for i in range(max_idx, -1, -1):
