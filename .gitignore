@@ -9,3 +9,5 @@ venv/
 .cph
 *.class
 *.swp
+*.idea
+*.iml
