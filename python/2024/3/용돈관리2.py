@@ -6,15 +6,14 @@ def check(money):
     cnt = 1
     cur_money = money
     for need_money in ary:
-        if cur_money >= need_money:
-            cur_money -= need_money
-        else:
+        if cur_money < need_money:
             cur_money = money
             cnt += 1
+        cur_money -= need_money
     return cnt <= m
 
 def binary_search():
-    start, end = 1, 10000 * 100000
+    start, end = 1, sum(ary)+1
     result = end
     while start <= end:
         mid = (start + end) // 2
