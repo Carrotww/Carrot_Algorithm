@@ -38,7 +38,7 @@ public class Main {
         }
 
         queue.offer(new Info (startR, startC, 0, 0));
-        visited[targetR][targetC][0] = 1;
+        visited[startR][startC][0] = 1;
 
         while (!queue.isEmpty()) {
             Info info = queue.poll();
