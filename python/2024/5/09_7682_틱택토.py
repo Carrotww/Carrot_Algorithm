@@ -56,38 +56,21 @@ def solve(t):
             else:
                 cur_b += 1
 
-    if cur_o > cur_x:
-        return False
+    is_x_win = checkbingo('X', graph)
+    is_o_win = checkbingo('O', graph)
 
-    if cur_x - cur_o > 1:
-        return False
+    if is_x_win and not is_o_win:
+        if cur_x == cur_o + 1:
+            return True
 
-    if checkbingo('O', graph) and not checkbingo('X', graph):
-        if cur_x != cur_o:
-            return False
+    if is_o_win and not is_x_win:
+        if cur_x == cur_o:
+            return True
 
-    if checkbingo('O', graph) and checkbingo('X', graph):
-        return False
-        
+    if not is_x_win and not is_o_win and cur_x == 5 and cur_o == 4:
+        return True
 
-    if cur_o > cur_x or not cur_o + 1 >= cur_x:
-        return False
-
-
-    if cur_o <= cur_x:
-        # 'O'가 빙고를 달성했는지 확인하는 로직
-        if checkbingo('O', graph):
-            return False
-
-    if cur_o == cur_x and cur_b:
-        if checkbingo('X', graph):
-            return False
-
-    # 빙고 상태를 확인하는 로직
-    if not checkbingo('O', graph) and not checkbingo('X', graph) and cur_b:
-        return False
-
-    return True
+    return False
 
 
 if __name__ == "__main__":
