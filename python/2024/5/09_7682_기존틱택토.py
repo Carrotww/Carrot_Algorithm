@@ -1,5 +1,4 @@
 def checkbingo(player, graph):
-    # 媛濡?泥댄겕
     for i in range(3):
         cnt = 0
         for j in range(3):
@@ -8,7 +7,6 @@ def checkbingo(player, graph):
         if cnt == 3:
             return True
 
-    # ?몃줈 泥댄겕
     for i in range(3):
         cnt = 0
         for j in range(3):
@@ -17,7 +15,6 @@ def checkbingo(player, graph):
         if cnt == 3:
             return True
 
-    # ?媛곸꽑 泥댄겕
     start_r, start_c = 0, 0
     cnt = 0
     for i in range(3):
@@ -58,7 +55,6 @@ def solve(t):
         return False
 
     if cur_o <= cur_x:
-        # 'O'媛 鍮숆퀬瑜??ъ꽦?덈뒗吏 ?뺤씤?섎뒗 濡쒖쭅
         if checkbingo('O', graph):
             return False
 
@@ -66,7 +62,6 @@ def solve(t):
         if checkbingo('X', graph):
             return False
 
-    # 鍮숆퀬 ?곹깭瑜??뺤씤?섎뒗 濡쒖쭅
     if not checkbingo('O', graph) and not checkbingo('X', graph) and cur_b:
         return False
 
