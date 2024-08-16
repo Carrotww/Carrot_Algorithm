@@ -1,4 +1,3 @@
-main*
 test*
 .breakpoints
 .replit
@@ -7,7 +6,3 @@ pyproject.toml
 replit.nix
 venv/
 .cph
-*.class
-*.swp
-*.idea
-*.iml
