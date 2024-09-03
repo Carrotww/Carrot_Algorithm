@@ -1,13 +1,15 @@
+# 1. class node
+# 2. class tree
+# 3. set root
+# 4. get node
+# 5. create node
+# 6. in order, pre order, post order
+
 class Node:
     def __init__(self, data):
+        self.data = data
         self.left = None
         self.right = None
-        self.data = data
-
-# tree class
-# set node
-# get node
-# inorder, preorder, postorder
 
 class Tree:
     def __init__(self):
@@ -19,7 +21,7 @@ class Tree:
     def get_node(self):
         return self.root
 
-    def create_node(self, data, left=None, right=None):
+    def create_node(self, data, left=None, right=None)
         node = Node(data)
         node.left = left
         node.right = right
@@ -28,6 +30,7 @@ class Tree:
     def in_order(self, node)
         if node is None:
             return
+
         self.in_order(node.left)
         print(node.data)
         self.in_order(node.right)
@@ -35,13 +38,15 @@ class Tree:
     def pre_order(self, node)
         if node is None:
             return
+
         print(node.data)
         self.pre_order(node.left)
-        self.pre_order(node.right)%
+        self.pre_order(node.right)
 
     def post_order(self, node)
         if node is None:
             return
+
         self.post_order(node.left)
         self.post_order(node.right)
         print(node.data)
