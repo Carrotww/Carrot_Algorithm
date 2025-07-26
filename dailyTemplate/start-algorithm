@@ -1,0 +1,130 @@
+#!/bin/bash
+
+BASE_DIR="/home/ubuntu/code/algorithm/dailyTemplate"
+DATE=$(date +%F)
+TARGET_DIR="$BASE_DIR/$DATE"
+DEST_FILE="$TARGET_DIR/Main.java"
+
+mkdir -p "$TARGET_DIR"
+
+cat <<EOF > "$DEST_FILE"
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Start implementing algorithms...");
+    }
+
+    // DFS
+	// https://www.acmicpc.net/problem/2178
+    // [설명] 재귀 DFS를 구현하세요.
+    // [입력] node: 현재 노드, visited: 방문 배열, graph: 인접 리스트
+    // [출력] 없음
+    static void dfs(int node, boolean[] visited, List<Integer>[] graph) {
+        // TODO
+    }
+
+    // BFS
+    // [설명] 시작 노드에서 BFS 순회를 구현하세요.
+    // [입력] start: 시작 노드, visited: 방문 배열, graph: 인접 리스트
+    static void bfs(int start, boolean[] visited, List<Integer>[] graph) {
+        // TODO
+    }
+
+    // Binary Search
+    // [설명] 정렬된 배열에서 target의 인덱스를 이진 탐색으로 찾으세요.
+    // [입력] arr: 정렬된 배열, target: 찾을 값
+    // [출력] 인덱스 또는 -1
+    static int binarySearch(int[] arr, int target) {
+        // TODO
+        return -1;
+    }
+
+    // Lower Bound
+    // [설명] target 이상의 첫 위치 인덱스를 찾으세요.
+    static int lowerBound(int[] arr, int target) {
+        // TODO
+        return -1;
+    }
+
+    // Upper Bound
+    // [설명] target을 초과하는 첫 위치 인덱스를 찾으세요.
+    static int upperBound(int[] arr, int target) {
+        // TODO
+        return -1;
+    }
+
+    // Dijkstra
+    // [설명] 단일 시작점 최단 거리 (음수 간선 없음)
+    // [입력] n: 노드 수, graph: 인접 리스트 (to, weight), start: 시작 노드
+    // [출력] dist 배열
+    static int[] dijkstra(int n, List<int[]>[] graph, int start) {
+        // TODO
+        return null;
+    }
+
+    // Union-Find
+    // [설명] Union-Find 자료구조: find, union 구현
+    static class UnionFind {
+        int[] parent;
+        UnionFind(int n) {
+            // TODO
+        }
+        int find(int x) {
+            // TODO
+            return -1;
+        }
+        void union(int x, int y) {
+            // TODO
+        }
+    }
+
+    // Prim
+    // [설명] 최소 신장 트리(MST)를 Prim 알고리즘으로 구현하세요.
+    static int prim(int n, List<int[]>[] graph) {
+        // TODO
+        return -1;
+    }
+
+    // Kruskal
+    // [설명] 최소 신장 트리(MST)를 Kruskal 알고리즘으로 구현하세요.
+    static int kruskal(int n, int[][] edges) {
+        // TODO
+        return -1;
+    }
+
+    // Floyd-Warshall
+    // [설명] 모든 쌍 최단 경로 구하기
+    // [입력] graph: 인접 행렬
+    // [출력] dist 배열
+    static int[][] floydWarshall(int[][] graph) {
+        // TODO
+        return null;
+    }
+
+	// Bellman-Ford
+    // [설명] 음수 가중치 허용, 단일 출발점 최단 거리
+    // [주의] 음수 사이클 존재 여부는 따로 판단 필요
+    static int[] bellmanFord(int n, int[][] edges, int start) {
+        // TODO
+        return null;
+    }
+
+    // Two Pointers
+    // [설명] 정렬된 배열에서 합이 특정 값인 두 수를 찾기
+    // [예시] 합이 k인 (i, j) 쌍을 출력
+    static void twoPointers(int[] arr, int k) {
+        // TODO
+    }
+
+    // Sliding Window
+    // [설명] 부분합이 k 이하인 최대 길이의 연속 부분 수열
+    static int slidingWindow(int[] arr, int k) {
+        // TODO
+        return -1;
+    }
+}
+EOF
+
+echo "✅ Created: $DEST_FILE"
+
