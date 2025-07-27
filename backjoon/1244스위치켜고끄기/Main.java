@@ -17,7 +17,7 @@ public class Main {
 			int num = Integer.parseInt(st.nextToken());
 
 			if (s == 1) {
-				for (int j = num; j < N + 1; j *= 2) {
+				for (int j = num; j < N + 1; j += num) {
 					if (sw[j - 1] == 0) {
 						sw[j - 1] = 1;
 					} else {
@@ -25,37 +25,40 @@ public class Main {
 					}
 				}
 			} else {
-				int right = num + 1;
-				int left = num - 1;
+				num--;
+				int right = num;
+				int left = num;
 				int maxR = num;
 				int minL = num;
 
-				while (right <= N && left > 0) {
-					if (right == left) {
+				while (right < N && left >= 0) {
+					if (sw[right] == sw[left]) {
 						maxR = right;
-						minL = num;
+						minL = left;
+					} else {
+						break;
 					}
 					right++;
 					left--;
 				}
 
-				if (maxR != num) {
-					for (int z = minL; z < maxR; z++) {
-						if (sw[z] == 0) {
-							sw[z] = 1;
-						} else {
-							sw[z] = 0;
-						}
+				for (int z = minL; z <= maxR; z++) {
+					if (sw[z] == 0) {
+						sw[z] = 1;
+					} else {
+						sw[z] = 0;
 					}
 				}
 			}
-
-			System.out.println("cal time" + " " + i);
-			System.out.println(Arrays.toString(sw));
 		}
-
-		System.out.println("result");
-		System.out.println(Arrays.toString(sw));
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < N; i++) {
+			sb.append(sw[i]).append(" ");
+			if ((i + 1) % 20 == 0) {
+				sb.append("\n");
+			}
+		}
+		System.out.println(sb);
 	}
 
 	public static void input() throws IOException {

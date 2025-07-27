@@ -1,8 +1,41 @@
-test*
-.breakpoints
-.replit
+# Python / Poetry
+venv/
 poetry.lock
 pyproject.toml
+.replit
 replit.nix
-venv/
+
+# JetBrains IDEs (e.g. IntelliJ, PyCharm)
+.idea/
+
+# Breakpoints / debug files
+.breakpoints
+
+# VSCode / Replit temp files
+*.swp
+*.swo
+
+# CP Helper / test files
+test*
+handcoding*
 .cph
+
+# Git-related
+.gitignore
+
+# Java build artifacts
+*.class
+*.jar
+*.log
+bin/
+build/
+
+# General
+*.iml
+*.tmp
+.DS_Store
+
+# Common src/main/ and out/ folders
+src/
+out/
+
