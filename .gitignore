@@ -34,6 +34,7 @@ build/
 *.iml
 *.tmp
 .DS_Store
+.vscode
 
 # Common src/main/ and out/ folders
 src/
