@@ -14,7 +14,7 @@ import java.util.*;
 
 import java.io.*;
 
-public class Main {
+public class Main2 {
     static int N;
     static int M;
     static int H;
@@ -23,29 +23,27 @@ public class Main {
     public static void main(String[] args) throws IOException {
         input();
 
-        int[][] dp = new int[N+1][H+1];
-
-        // init
+        int[][] dp = new int[N][H+1];
         dp[0][0] = 1;
+        for (int value : peopleAry[0]) {
+            dp[0][value] = 1;
+        }
 
-        for (int i = 1; i <= N; i++) {
-            for (int j = 0; j <= H; j++) {
-                dp[i][j] += dp[i-1][j];
-                dp[i][j] %= 10007;
-                for (int value : peopleAry[i-1]) {
-                    if (value <= j) {
-                        dp[i][j] += dp[i-1][j-value];
-                        dp[i][j] %= 10007;
+        for (int people = 1; people < N; people++) {
+            for (int height = 0; height <= H; height++) {
+                dp[people][height] += dp[people-1][height];
+                dp[people][height] %= 10007;
+
+                for (int value : peopleAry[people]) {
+                    if (value <= height) {
+                        dp[people][height] += dp[people-1][height-value];
+                        dp[people][height] %= 10007;
                     }
                 }
             }
         }
 
-        System.out.println(dp[N][H]);
-        System.out.println("---");
-        for (int[] d : dp) {
-            System.out.println(Arrays.toString(d));
-        }
+        System.out.println(dp[N-1][H]);
     }
 
     public static void print() {
