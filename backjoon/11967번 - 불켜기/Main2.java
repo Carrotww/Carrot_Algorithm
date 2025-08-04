@@ -13,7 +13,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Main {
+public class Main2 {
 
     static int N, M;
     static int[][] graph;
@@ -25,6 +25,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         input();
 
+        // 0, 0부터 큐에 넣고 불 켜고 bfs 돌리자
         Queue<int[]> q = new LinkedList<>();
         q.add(new int[] {0, 0});
         graph[0][0] = 1;
@@ -32,53 +33,50 @@ public class Main {
 
         while (!q.isEmpty()) {
             int[] cur = q.poll();
-            int r = cur[0], c = cur[1];
+            int r = cur[0];
+            int c = cur[1];
 
-            // 스위치 작동
             for (int[] light : lights[r][c]) {
-                int lr = light[0] - 1;
-                int lc = light[1] - 1;
+                // 하나씩 불 켜주고 불 켜진곳이 아직 방문 안되어 있으면 4방향 확인해서 거기를 큐에 넣어준다.
+                int curR = light[0];
+                int curC = light[1];
 
-                // 아직 불이 꺼져있다면
-                if (graph[lr][lc] == 0) {
-                    graph[lr][lc] = 1;
-
-                    // 불 켜진 방 주변에 방문된 곳이 있다면 즉시 큐에 넣음
+                if (graph[curR][curC] == 0 && !visited[curR][curC]) {
                     for (int d = 0; d < 4; d++) {
-                        int nr = lr + dr[d];
-                        int nc = lc + dc[d];
-                        if (nr < 0 || nr >= N || nc < 0 || nc >= N) continue;
+                        int nR = curR + dr[d];
+                        int nC = curC + dc[d];
 
-                        if (visited[nr][nc]) {
-                            q.add(new int[]{lr, lc});
-                            visited[lr][lc] = true;
+                        if (isRange(nR, nC) && visited[nR][nC]) {
+                            q.add(new int[] {nR, nC});
                         }
                     }
                 }
+                graph[curR][curC] = 1;
             }
 
-            // 현재 위치에서 4방향 이동
             for (int d = 0; d < 4; d++) {
-                int nr = r + dr[d];
-                int nc = c + dc[d];
+                int nR = r + dr[d];
+                int nC = c + dc[d];
 
-                if (nr < 0 || nr >= N || nc < 0 || nc >= N) continue;
-                if (graph[nr][nc] == 1 && !visited[nr][nc]) {
-                    q.add(new int[]{nr, nc});
-                    visited[nr][nc] = true;
+                if (isRange(nR, nC) && !visited[nR][nC] && graph[nR][nC] == 1) {
+                    q.add(new int[] {nR, nC});
+                    visited[nR][nC] = true;
                 }
             }
         }
 
-        // 불 켜진 방 개수 세기
         int result = 0;
-        for (int[] row : graph) {
-            for (int cell : row) {
-                result += cell;
-            }
+
+        for (int[] ary : graph) {
+            result += Arrays.stream(ary).sum();
         }
 
         System.out.println(result);
+    }
+
+    public static boolean isRange(int r, int c) {
+        if (r < 0 || r >= N || c < 0 || c >= N) return false;
+        else return true;
     }
 
     public static void input() throws IOException {
@@ -100,8 +98,8 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             int x = Integer.parseInt(st.nextToken()) - 1;
             int y = Integer.parseInt(st.nextToken()) - 1;
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
+            int a = Integer.parseInt(st.nextToken()) - 1;
+            int b = Integer.parseInt(st.nextToken()) - 1;
             lights[x][y].add(new int[]{a, b});
         }
     }
