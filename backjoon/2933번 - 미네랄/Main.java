@@ -36,8 +36,6 @@ public class Main {
             int curHeight = R - stoneAry[m];
             int curCol;
 
-            printGraph();
-
             if (m % 2 == 0) {
                 // 왼쪽
                 curCol = 0;
@@ -45,24 +43,35 @@ public class Main {
                     curCol++;
                 }
 
-                System.out.println("left : " + curCol);
             } else {
                 // 오른쪽
                 curCol = C - 1;
                 while (graph[curHeight][curCol] != 'x' && curCol > 0) {
                     curCol--;
                 }
-                System.out.println("right : " + curCol);
+
             }
 
             if (graph[curHeight][curCol] == 'x') {
                 graph[curHeight][curCol] = '.';
+
+                // bfs + cluster down
+                bfs();
             } else {
                 continue;
             }
-            // 내리고
-            bfs();
+
+            // printGraph();
         }
+
+        StringBuffer sb = new StringBuffer();
+        for (int r = 0; r < R; r++) {
+            for (int c = 0; c < C; c++) {
+                sb.append(graph[r][c]);
+            }
+            sb.append("\n");
+        }
+        System.out.println(sb);
     }
 
     public static void bfs() {
@@ -74,15 +83,16 @@ public class Main {
                     Queue<int[]> q = new LinkedList();
                     q.add(new int[] { r, c });
                     visited[r][c] = visiteCnt;
-                    boolean isUp = false;
+                    // isUp flag를 true로 설정 후 row값이 하나라도 바닥(R-1)에 있다면 false로 바꾸어 준다.
+                    boolean isUp = true;
 
                     while (!q.isEmpty()) {
                         int[] node = q.poll();
                         int curR = node[0];
                         int curC = node[1];
 
-                        if (curR == 0)
-                            isUp = true;
+                        if (curR == R - 1)
+                            isUp = false;
 
                         for (int d = 0; d < 4; d++) {
                             int nR = curR + dr[d];
@@ -144,8 +154,6 @@ public class Main {
             graph[nR][nC] = 'x';
             visited[nR][nC] = cnt;
         }
-
-        printGraph();
     }
 
     public static void printGraph() {
