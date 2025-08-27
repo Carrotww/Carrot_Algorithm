@@ -41,6 +41,7 @@ public class Main {
 
         for (int i = 1; i < N; i++) {
             boolean isSame = true;
+            rank++;
 
             for (int j = 0; j < 3; j++) {
                 if (prev.get(j + 1) != ary[i].get(j + 1)) {
