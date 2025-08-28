@@ -22,12 +22,24 @@ public class Main {
         input();
 
         Arrays.sort(ary, (a, b) -> {
-            if (a.get(1) != b.get(1))
+            if (a.get(1) == b.get(1)) {
+                if (a.get(2) == b.get(2)) {
+                    return b.get(3) - a.get(3);
+                } else {
+                    return b.get(2) - a.get(2);
+                }
+            } else {
                 return b.get(1) - a.get(1);
-            else if (a.get(2) != b.get(2))
-                return b.get(2) - a.get(2);
-            return b.get(3) - a.get(3);
+            }
         });
+
+        // Arrays.sort(ary, (a, b) -> {
+        //     if (a.get(1) != b.get(1))
+        //         return b.get(1) - a.get(1);
+        //     else if (a.get(2) != b.get(2))
+        //         return b.get(2) - a.get(2);
+        //     return b.get(3) - a.get(3);
+        // });
 
         int rank = 1;
         int prevRank = 1;
@@ -41,25 +53,49 @@ public class Main {
 
         for (int i = 1; i < N; i++) {
             boolean isSame = true;
-            rank++;
 
             for (int j = 0; j < 3; j++) {
-                if (prev.get(j + 1) != ary[i].get(j + 1)) {
+                if (ary[i-1].get(j+1).intValue() != ary[i].get(j+1).intValue()) {
                     isSame = false;
                     break;
                 }
             }
 
-            if (!isSame) {
-                prev = ary[i];
-                prevRank = rank;
+            // if prev country is same cur country
+            if (isSame) {
+                // cur rank is same prevRank
+            } else {
+                // cur rank is index + 1
+                prevRank = i + 1;
             }
 
             if (ary[i].get(0) == target) {
                 System.out.println(prevRank);
-                break;
+                return;
             }
         }
+
+        // for (int i = 1; i < N; i++) {
+        //     boolean isSame = true;
+        //     rank++;
+
+        //     for (int j = 0; j < 3; j++) {
+        //         if (prev.get(j + 1) != ary[i].get(j + 1)) {
+        //             isSame = false;
+        //             break;
+        //         }
+        //     }
+
+        //     if (!isSame) {
+        //         prev = ary[i];
+        //         prevRank = rank;
+        //     }
+
+        //     if (ary[i].get(0) == target) {
+        //         System.out.println(prevRank);
+        //         break;
+        //     }
+        // }
 
     }
 
