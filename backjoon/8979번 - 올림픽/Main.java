@@ -22,8 +22,8 @@ public class Main {
         input();
 
         Arrays.sort(ary, (a, b) -> {
-            if (a.get(1) == b.get(1)) {
-                if (a.get(2) == b.get(2)) {
+            if (a.get(1).equals(b.get(1))) {
+                if (a.get(2).equals(b.get(2))) {
                     return b.get(3) - a.get(3);
                 } else {
                     return b.get(2) - a.get(2);
@@ -32,14 +32,6 @@ public class Main {
                 return b.get(1) - a.get(1);
             }
         });
-
-        // Arrays.sort(ary, (a, b) -> {
-        //     if (a.get(1) != b.get(1))
-        //         return b.get(1) - a.get(1);
-        //     else if (a.get(2) != b.get(2))
-        //         return b.get(2) - a.get(2);
-        //     return b.get(3) - a.get(3);
-        // });
 
         int rank = 1;
         int prevRank = 1;
@@ -74,29 +66,6 @@ public class Main {
                 return;
             }
         }
-
-        // for (int i = 1; i < N; i++) {
-        //     boolean isSame = true;
-        //     rank++;
-
-        //     for (int j = 0; j < 3; j++) {
-        //         if (prev.get(j + 1) != ary[i].get(j + 1)) {
-        //             isSame = false;
-        //             break;
-        //         }
-        //     }
-
-        //     if (!isSame) {
-        //         prev = ary[i];
-        //         prevRank = rank;
-        //     }
-
-        //     if (ary[i].get(0) == target) {
-        //         System.out.println(prevRank);
-        //         break;
-        //     }
-        // }
-
     }
 
     public static void input() throws IOException {
