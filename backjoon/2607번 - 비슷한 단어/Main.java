@@ -37,6 +37,9 @@ class Main {
             boolean isSimilar = true;
 
             for (int j = 0; j < 'Z' - 'A' + 1; j++) {
+            }
+
+            for (int j = 0; j < 'Z' - 'A' + 1; j++) {
                 if (wordAry[0][j] != wordAry[i][j]) {
                     cnt++;
                     if (cnt > 1) {
