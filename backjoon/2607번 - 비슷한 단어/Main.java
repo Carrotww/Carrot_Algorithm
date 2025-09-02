@@ -33,23 +33,26 @@ class Main {
 
         for (int i = 1; i < N; i++) {
             // start compare
-            int cnt = 0;
-            boolean isSimilar = true;
+            int beforeCnt = 0;
+            int afterCnt = 0;
 
             for (int j = 0; j < 'Z' - 'A' + 1; j++) {
-            }
+                wordAry[i][j] -= wordAry[0][j];
 
-            for (int j = 0; j < 'Z' - 'A' + 1; j++) {
-                if (wordAry[0][j] != wordAry[i][j]) {
-                    cnt++;
-                    if (cnt > 1) {
-                        isSimilar = false;
-                        break;
-                    }
+                if (wordAry[i][j] <= 0) {
+                    beforeCnt += Math.abs(wordAry[i][j]);
+                } else {
+                    afterCnt += wordAry[i][j];
                 }
             }
 
-            if (isSimilar) {
+            if (beforeCnt > 1 || afterCnt > 1) {
+                continue;
+            }
+
+            if (beforeCnt == 1 && afterCnt == 1) {
+                result++;
+            } else {
                 result++;
             }
         }
