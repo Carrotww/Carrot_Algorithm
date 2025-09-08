@@ -13,7 +13,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Main {
+public class Main2 {
     static int N; // start r = 1, c = 1
     static int M;
     static int K;
@@ -44,6 +44,9 @@ public class Main {
                 ArrayList<Integer> temp = new ArrayList<>();
                 int leftFood = 0;
 
+                // 정렬
+                Collections.sort(treeGraph[r][c]);
+
                 for (int treeAge : treeGraph[r][c]) {
                     if (food >= treeAge) {
                         food -= treeAge;
@@ -66,32 +69,19 @@ public class Main {
         int[] dr = new int[] { -1, -1, -1, 0, 1, 1, 1, 0 };
         int[] dc = new int[] { -1, 0, 1, 1, 1, 0, -1, -1 };
 
-        for (int r= 0; r < N; r++) {
+        for (int r = 0; r < N; r++) {
             for (int c = 0; c < N; c++) {
-
-                int breedCnt = 0;
                 for (int treeAge : treeGraph[r][c]) {
-                    if (treeAge % 5 == 0) breedCnt++;
-                }
+                    if (treeAge % 5 == 0) {
+                        for (int d = 0; d < 8; d++) {
+                            int nR = r + dr[d];
+                            int nC = c + dc[d];
 
-                if (breedCnt == 0) continue;
+                            if (nR < 0 || nR >= N || nC < 0 || nC >= N) continue;
 
-                for (int d = 0; d < 8; d++) {
-                    int nR = r + dr[d];
-                    int nC = c + dc[d];
-
-                    if (nR < 0 || nR >= N || nC < 0 || nC >= N) continue;
-
-                    ArrayList<Integer> youngTrees = new ArrayList<>();
-                    for (int x = 0; x < breedCnt; x++) {
-                        youngTrees.add(1);
+                            treeGraph[nR][nC].add(1);
+                        }
                     }
-
-                    ArrayList<Integer> totalTrees = new ArrayList<>();
-                    totalTrees.addAll(youngTrees);
-                    totalTrees.addAll(treeGraph[nR][nC]);
-
-                    treeGraph[nR][nC] = totalTrees;
                 }
             }
         }
