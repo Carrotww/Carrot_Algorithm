@@ -168,6 +168,8 @@ public class Main {
                         graph[rr][cc-1] = false;
                     }
                 }
+
+                result++;
             }
         }
     }
@@ -195,15 +197,53 @@ public class Main {
                         graph[rr-1][cc] = false;
                     }
                 }
+
+                result++;
             }
         }
     }
 
     static void checkBlueLine() {
+        // 파란 경계 확인해서 오른쪽으로 밀기
+        int moveCnt = 0;
 
+        for (int c = 4; c < 5; c++) {
+            for (int r = 0; r < 4; r++) {
+                if (graph[r][c]) {
+                    moveCnt++;
+                    break;
+                }
+            }
+        }
+
+        for (int i = 0; i < moveCnt; i++) {
+            // 경계에 있는 만큼 밀어줘야 한다.
+            for (int c = 9; c > 4; c--) {
+                for (int r = 0; r < 4; r++) {
+                    graph[r][c] = graph[r][c-1];
+                }
+            }
+        }
     }
 
     static void checkGreenLine() {
+        int moveCnt = 0;
 
+        for (int r = 4; r < 5; r++) {
+            for (int c = 0; c < 4; c++) {
+                if (graph[r][c]) {
+                    moveCnt++;
+                    break;
+                }
+            }
+        }
+
+        for (int i = 0; i < moveCnt; i++) {
+            for (int c = 9; c > 4; c--) {
+                for (int r = 0; r < 4; r++) {
+                    graph[r][c] = graph[r-1][c];
+                }
+            }
+        }
     }
 }
