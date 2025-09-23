@@ -34,51 +34,33 @@ public class Main2 {
             int r = Integer.parseInt(st.nextToken());
             int c = Integer.parseInt(st.nextToken());
 
-            System.out.println("t : " + t + " r : " + r + " c : " + c);
-
             // 움직여주기
-            moveBlue(t, c);
-            pg("moveBlue");
-            moveGreen(t, r);
-            pg("moveGreen");
+            moveBlue(t, r);
+            moveGreen(t, c);
 
             // 터뜨리기, 터졌으면 움직이기 터지면 점수
             popBlue();
-            pg("popBlue");
             popGreen();
-            pg("popGreen");
 
             // 경계 확인해서 밀어주기
             checkBlueLine();
-            pg("checkBlueLine");
             checkGreenLine();
-            pg("checkGreenLine");
         }
 
         int cnt = 0;
 
-        for (int r = 6; r < 10; r++) {
-            for (int c = 0; c < 4; c++) {
-                if (graph[r][c]) cnt++;
-            }
-        }
+        for (int r = 6; r < 10; r++)
+            for (int c = 0; c < 4; c++)
+                if (graph[r][c])
+                    cnt++;
 
-        for (int c = 6; c < 10; c++) {
-            for (int r = 0; r < 4; r++) {
-                if (graph[r][c]) cnt++;
-            }
-        }
+        for (int c = 6; c < 10; c++)
+            for (int r = 0; r < 4; r++)
+                if (graph[r][c])
+                    cnt++;
 
         System.out.println(result);
         System.out.println(cnt);
-    }
-
-    public static void pg(String msg) {
-        System.out.println("-----------" + msg + "-----------");
-        for (boolean[] g : graph) {
-            System.out.println(Arrays.toString(g));
-        }
-        System.out.println("-----------" + "end" + "-----------");
     }
 
     public static void moveGreen(int t, int c) {
@@ -87,22 +69,22 @@ public class Main2 {
         int r = 0;
 
         if (t == 1) { // (r, c)
-            while (r + 1 < 10 && !graph[r+1][c]) {
+            while (r + 1 < 10 && !graph[r + 1][c])
                 r++;
-            }
+
             graph[r][c] = true;
 
         } else if (t == 2) { // (r, c), (r, c + 1)
-            while (r + 1 < 10 && !graph[r+1][c] && !graph[r+1][c+1]) {
+            while (r + 1 < 10 && !graph[r + 1][c] && !graph[r + 1][c + 1])
                 r++;
-            }
-            graph[r][c] = graph[r][c+1] = true;
+
+            graph[r][c] = graph[r][c + 1] = true;
 
         } else if (t == 3) { // (r, c), (r + 1, c)
-            while (r + 2 < 10 && !graph[r+2][c]) {
+            while (r + 2 < 10 && !graph[r + 2][c])
                 r++;
-            }
-            graph[r][c] = graph[r+1][c] = true;
+
+            graph[r][c] = graph[r + 1][c] = true;
         }
     }
 
@@ -112,78 +94,69 @@ public class Main2 {
         int c = 0;
 
         if (t == 1) { // (r, c)
-            while (c + 1 < 10 && !graph[r][c+1]) {
+            while (c + 1 < 10 && !graph[r][c + 1])
                 c++;
-            }
             graph[r][c] = true;
 
         } else if (t == 2) { // (r, c), (r, c + 1) 가로
-            while (c + 2 < 10 && !graph[r][c+2]) {
+            while (c + 2 < 10 && !graph[r][c + 2])
                 c++;
-            }
-            graph[r][c] = graph[r][c+1] = true;
+
+            graph[r][c] = graph[r][c + 1] = true;
 
         } else if (t == 3) { // (r, c), (r + 1, c) 세로
-            while (c + 1 < 10 && !graph[r][c+1] && !graph[r+1][c+1]) {
+            while (c + 1 < 10 && !graph[r][c + 1] && !graph[r + 1][c + 1])
                 c++;
-            }
-            graph[r][c] = graph[r+1][c] = true;
+
+            graph[r][c] = graph[r + 1][c] = true;
         }
     }
 
     public static void popGreen() {
         // 터뜨리고 터지면 밀어 줌
-        for (int r = 9; r >= 4; r--) {
+        for (int r = 9; r >= 4;) {
             boolean canPop = true;
 
-            for (int c = 0; c < 4; c++) {
+            for (int c = 0; c < 4; c++)
                 if (!graph[r][c]) {
                     canPop = false;
                     break;
                 }
-            }
 
             if (canPop) {
                 // 터뜨려 주기
-                for (int c = 0; c < 4; c++) graph[r][c] = false;
+                for (int c = 0; c < 4; c++)
+                    graph[r][c] = false;
 
-                for (int mr = r; mr >= 4; mr--) {
-                    for (int c = 0; c < 4; c++) {
-                        graph[r][c] = graph[r-1][c];
-                        graph[r-1][c] = false;
-                    }
-                }
+                for (int mr = r; mr > 3; mr--)
+                    for (int c = 0; c < 4; c++)
+                        graph[mr][c] = graph[mr - 1][c];
 
-                r++;
                 result++;
-            }
+            } else r--;
         }
     }
 
     public static void popBlue() {
-        for (int c = 9; c >= 4; c--) {
+        for (int c = 9; c >= 4;) {
             boolean canPop = true;
 
-            for (int r = 0; r < 4; r++) {
+            for (int r = 0; r < 4; r++)
                 if (!graph[r][c]) {
                     canPop = false;
                     break;
                 }
-            }
 
             if (canPop) {
-                for (int r = 0; r < 4; r++) graph[r][c] = false;
+                for (int r = 0; r < 4; r++)
+                    graph[r][c] = false;
 
-                for (int mc = c; mc >= 4; mc--) {
-                    for (int r = 0; r < 4; r++) {
-                        graph[r][c] = graph[r][c-1];
-                        graph[r][c-1] = false;
-                    }
-                }
+                for (int mc = c; mc > 3; mc--)
+                    for (int r = 0; r < 4; r++)
+                        graph[r][mc] = graph[r][mc - 1];
 
-                c++;
                 result++;
-            }
+            } else c--;
         }
     }
 
@@ -192,26 +165,23 @@ public class Main2 {
 
         int push = 0;
 
-        for (int r = 4; r < 5; r++) {
-            for (int c = 0; c < 4; c++) {
-                if (!graph[r][c]) {
+        for (int r = 4; r < 6; r++)
+            for (int c = 0; c < 4; c++)
+                if (graph[r][c]) {
                     push++;
                     break;
                 }
-            }
-        }
 
         // r = 9 ~ 4
-        while (push > 0) {
-            for (int c = 0; c < 4; c++) graph[9][c] = false;
+        while (push-- > 0) {
+            for (int c = 0; c < 4; c++)
+                graph[9][c] = false;
 
-            for (int r = 9; r >= 4; r--) {
+            for (int r = 9; r >= 4; r--)
                 for (int c = 0; c < 4; c++) {
-                    graph[r][c] = graph[r-1][c];
-                    graph[r-1][c] = false;
+                    graph[r][c] = graph[r - 1][c];
+                    graph[r - 1][c] = false;
                 }
-            }
-            push--;
         }
     }
 
@@ -220,25 +190,22 @@ public class Main2 {
 
         int push = 0;
 
-        for (int c = 4; c < 5; c++) {
-            for (int r = 0; r < 4; r++) {
-                if (!graph[r][c]) {
+        for (int c = 4; c < 6; c++)
+            for (int r = 0; r < 4; r++)
+                if (graph[r][c]) {
                     push++;
                     break;
                 }
-            }
-        }
 
-        while (push > 0) {
-            for (int r = 0; r < 4; r++) graph[r][9] = false;
+        while (push-- > 0) {
+            for (int r = 0; r < 4; r++)
+                graph[r][9] = false;
 
-            for (int c = 9; c >= 4; c--) {
+            for (int c = 9; c >= 4; c--)
                 for (int r = 0; r < 4; r++) {
-                    graph[r][c] = graph[r][c-1];
-                    graph[r][c-1] = false;
+                    graph[r][c] = graph[r][c - 1];
+                    graph[r][c - 1] = false;
                 }
-            }
-            push--;
         }
     }
 }
