@@ -1,152 +1,244 @@
-import java.io.*;
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                      :::    :::    :::     */
+/*   Problem Number: 20061                             :+:    :+:      :+:    */
+/*                                                    +:+    +:+        +:+   */
+/*   By: rjgjfl <boj.kr/u/rjgjfl>                    +#+    +#+          +#+  */
+/*                                                  +#+      +#+        +#+   */
+/*   https://boj.kr/20061                          #+#        #+#      #+#    */
+/*   Solved: 2025/09/11 23:06:17 by rjgjfl        ###          ###   ##.kr    */
+/*                                                                            */
+/* ************************************************************************** */
+
 import java.util.*;
+import java.io.*;
 
 public class Main2 {
-    static boolean[][] G = new boolean[6][4]; // green: rows 0..5, cols 0..3 (0..1 light, 2..5 dark)
-    static boolean[][] B = new boolean[4][6]; // blue : rows 0..3, cols 0..5 (0..1 light, 2..5 dark)
-    static int score = 0;
+    // x = row, y = col
+    // t = 1 -> (x, y)
+    // t = 2 -> (x, y), (x, y + 1)
+    // t = 3 -> (x, y), (x + 1, y)
 
-    public static void main(String[] args) throws Exception {
+    static boolean[][] graph = new boolean[10][10];
+    static int result = 0;
+
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int N = Integer.parseInt(st.nextToken());
 
         for (int i = 0; i < N; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
+            st = new StringTokenizer(br.readLine());
             int t = Integer.parseInt(st.nextToken());
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
+            int r = Integer.parseInt(st.nextToken());
+            int c = Integer.parseInt(st.nextToken());
 
-            // 1) 초록판 낙하 (y 열 기준)
-            dropGreen(t, y);
+            System.out.println("t : " + t + " r : " + r + " c : " + c);
 
-            // 2) 파란판 낙하 (x 행 기준, t 회전: 2<->3)
-            int bt = (t == 2 ? 3 : (t == 3 ? 2 : 1));
-            dropBlue(bt, x);
+            // 움직여주기
+            moveBlue(t, c);
+            pg("moveBlue");
+            moveGreen(t, r);
+            pg("moveGreen");
 
-            // 3) 라인 제거
-            clearGreen();
-            clearBlue();
+            // 터뜨리기, 터졌으면 움직이기 터지면 점수
+            popBlue();
+            pg("popBlue");
+            popGreen();
+            pg("popGreen");
 
-            // 4) 연한 영역 처리
-            pushGreenLight();
-            pushBlueLight();
+            // 경계 확인해서 밀어주기
+            checkBlueLine();
+            pg("checkBlueLine");
+            checkGreenLine();
+            pg("checkGreenLine");
         }
 
-        // 남은 칸 수 카운트
-        int remain = countGreen() + countBlue();
-
-        // 출력: 점수, 남은 칸
-        System.out.println(score);
-        System.out.println(remain);
-    }
-
-    // ---------- 초록판 ----------
-    static void dropGreen(int t, int y) {
-        if (t == 1) { // 1x1
-            int r = 0;
-            while (r + 1 < 6 && !G[r + 1][y]) r++;
-            G[r][y] = true;
-        } else if (t == 2) { // 1x2 (가로)
-            int r = 0;
-            while (r + 1 < 6 && !G[r + 1][y] && !G[r + 1][y + 1]) r++;
-            G[r][y] = G[r][y + 1] = true;
-        } else { // t==3, 2x1 (세로)
-            int r = 0;
-            while (r + 2 < 6 && !G[r + 2][y]) r++;
-            G[r][y] = G[r + 1][y] = true;
-        }
-    }
-
-    static void clearGreen() {
-        for (int r = 5; r >= 2; ) {
-            boolean full = true;
-            for (int c = 0; c < 4; c++) if (!G[r][c]) { full = false; break; }
-            if (full) {
-                score++;
-                // 아래로 당기기
-                for (int i = r; i > 0; i--)
-                    for (int c = 0; c < 4; c++) G[i][c] = G[i - 1][c];
-                for (int c = 0; c < 4; c++) G[0][c] = false;
-                // 같은 r 다시 검사 (연쇄 가능)
-            } else r--;
-        }
-    }
-
-    static void pushGreenLight() {
         int cnt = 0;
-        for (int r = 0; r <= 1; r++) {
+
+        for (int r = 6; r < 10; r++) {
             for (int c = 0; c < 4; c++) {
-                if (G[r][c]) { cnt++; break; }
+                if (graph[r][c]) cnt++;
             }
         }
-        while (cnt-- > 0) {
-            // 전체 한 칸 아래로
-            for (int r = 5; r > 0; r--)
-                for (int c = 0; c < 4; c++) G[r][c] = G[r - 1][c];
-            for (int c = 0; c < 4; c++) G[0][c] = false;
-        }
-    }
 
-    static int countGreen() {
-        int sum = 0;
-        for (int r = 2; r < 6; r++)
-            for (int c = 0; c < 4; c++)
-                if (G[r][c]) sum++;
-        return sum;
-    }
-
-    // ---------- 파란판 ----------
-    static void dropBlue(int t, int x) {
-        if (t == 1) { // 1x1 -> 행 x에서 오른쪽
-            int col = 0;
-            while (col + 1 < 6 && !B[x][col + 1]) col++;
-            B[x][col] = true;
-        } else if (t == 2) { // 2x1 (세로) -> 행 x, x+1 동시에 오른쪽
-            int col = 0;
-            while (col + 1 < 6 && !B[x][col + 1] && !B[x + 1][col + 1]) col++;
-            B[x][col] = B[x + 1][col] = true;
-        } else { // t==3, 1x2 (가로) -> 행 x에서 폭 2
-            int col = 0;
-            while (col + 2 < 6 && !B[x][col + 2]) col++;
-            B[x][col] = B[x][col + 1] = true;
-        }
-    }
-
-    static void clearBlue() {
-        for (int c = 5; c >= 2; ) {
-            boolean full = true;
-            for (int r = 0; r < 4; r++) if (!B[r][c]) { full = false; break; }
-            if (full) {
-                score++;
-                // 왼쪽으로 당기기
-                for (int j = c; j > 0; j--)
-                    for (int r = 0; r < 4; r++) B[r][j] = B[r][j - 1];
-                for (int r = 0; r < 4; r++) B[r][0] = false;
-                // 같은 c 다시 검사
-            } else c--;
-        }
-    }
-
-    static void pushBlueLight() {
-        int cnt = 0;
-        for (int c = 0; c <= 1; c++) {
+        for (int c = 6; c < 10; c++) {
             for (int r = 0; r < 4; r++) {
-                if (B[r][c]) { cnt++; break; }
+                if (graph[r][c]) cnt++;
             }
         }
-        while (cnt-- > 0) {
-            // 전체 한 칸 왼쪽으로
-            for (int c = 5; c > 0; c--)
-                for (int r = 0; r < 4; r++) B[r][c] = B[r][c - 1];
-            for (int r = 0; r < 4; r++) B[r][0] = false;
+
+        System.out.println(result);
+        System.out.println(cnt);
+    }
+
+    public static void pg(String msg) {
+        System.out.println("-----------" + msg + "-----------");
+        for (boolean[] g : graph) {
+            System.out.println(Arrays.toString(g));
+        }
+        System.out.println("-----------" + "end" + "-----------");
+    }
+
+    public static void moveGreen(int t, int c) {
+        // 아래로 내려감
+
+        int r = 0;
+
+        if (t == 1) { // (r, c)
+            while (r + 1 < 10 && !graph[r+1][c]) {
+                r++;
+            }
+            graph[r][c] = true;
+
+        } else if (t == 2) { // (r, c), (r, c + 1)
+            while (r + 1 < 10 && !graph[r+1][c] && !graph[r+1][c+1]) {
+                r++;
+            }
+            graph[r][c] = graph[r][c+1] = true;
+
+        } else if (t == 3) { // (r, c), (r + 1, c)
+            while (r + 2 < 10 && !graph[r+2][c]) {
+                r++;
+            }
+            graph[r][c] = graph[r+1][c] = true;
         }
     }
 
-    static int countBlue() {
-        int sum = 0;
-        for (int c = 2; c < 6; c++)
-            for (int r = 0; r < 4; r++)
-                if (B[r][c]) sum++;
-        return sum;
+    public static void moveBlue(int t, int r) {
+        // 오른쪽으로 감
+
+        int c = 0;
+
+        if (t == 1) { // (r, c)
+            while (c + 1 < 10 && !graph[r][c+1]) {
+                c++;
+            }
+            graph[r][c] = true;
+
+        } else if (t == 2) { // (r, c), (r, c + 1) 가로
+            while (c + 2 < 10 && !graph[r][c+2]) {
+                c++;
+            }
+            graph[r][c] = graph[r][c+1] = true;
+
+        } else if (t == 3) { // (r, c), (r + 1, c) 세로
+            while (c + 1 < 10 && !graph[r][c+1] && !graph[r+1][c+1]) {
+                c++;
+            }
+            graph[r][c] = graph[r+1][c] = true;
+        }
+    }
+
+    public static void popGreen() {
+        // 터뜨리고 터지면 밀어 줌
+        for (int r = 9; r >= 4; r--) {
+            boolean canPop = true;
+
+            for (int c = 0; c < 4; c++) {
+                if (!graph[r][c]) {
+                    canPop = false;
+                    break;
+                }
+            }
+
+            if (canPop) {
+                // 터뜨려 주기
+                for (int c = 0; c < 4; c++) graph[r][c] = false;
+
+                for (int mr = r; mr >= 4; mr--) {
+                    for (int c = 0; c < 4; c++) {
+                        graph[r][c] = graph[r-1][c];
+                        graph[r-1][c] = false;
+                    }
+                }
+
+                r++;
+                result++;
+            }
+        }
+    }
+
+    public static void popBlue() {
+        for (int c = 9; c >= 4; c--) {
+            boolean canPop = true;
+
+            for (int r = 0; r < 4; r++) {
+                if (!graph[r][c]) {
+                    canPop = false;
+                    break;
+                }
+            }
+
+            if (canPop) {
+                for (int r = 0; r < 4; r++) graph[r][c] = false;
+
+                for (int mc = c; mc >= 4; mc--) {
+                    for (int r = 0; r < 4; r++) {
+                        graph[r][c] = graph[r][c-1];
+                        graph[r][c-1] = false;
+                    }
+                }
+
+                c++;
+                result++;
+            }
+        }
+    }
+
+    public static void checkGreenLine() {
+        // r = 4, 5
+
+        int push = 0;
+
+        for (int r = 4; r < 5; r++) {
+            for (int c = 0; c < 4; c++) {
+                if (!graph[r][c]) {
+                    push++;
+                    break;
+                }
+            }
+        }
+
+        // r = 9 ~ 4
+        while (push > 0) {
+            for (int c = 0; c < 4; c++) graph[9][c] = false;
+
+            for (int r = 9; r >= 4; r--) {
+                for (int c = 0; c < 4; c++) {
+                    graph[r][c] = graph[r-1][c];
+                    graph[r-1][c] = false;
+                }
+            }
+            push--;
+        }
+    }
+
+    public static void checkBlueLine() {
+        // c = 4, 5
+
+        int push = 0;
+
+        for (int c = 4; c < 5; c++) {
+            for (int r = 0; r < 4; r++) {
+                if (!graph[r][c]) {
+                    push++;
+                    break;
+                }
+            }
+        }
+
+        while (push > 0) {
+            for (int r = 0; r < 4; r++) graph[r][9] = false;
+
+            for (int c = 9; c >= 4; c--) {
+                for (int r = 0; r < 4; r++) {
+                    graph[r][c] = graph[r][c-1];
+                    graph[r][c-1] = false;
+                }
+            }
+            push--;
+        }
     }
 }
