@@ -13,7 +13,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Main2 {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -22,72 +22,53 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         String line = br.readLine();
 
-        // int[] -> 좌표 담을 set
-        List<int[]> ary = new ArrayList<>();
-        int minR = 0;
-        int minC = 0;
+        final int SIZE = 101;
+        final int MID = SIZE / 2;
 
-        int maxR = 0;
-        int maxC = 0;
+        // 101 * 101 로 크게 잡고
+        boolean[][] visited = new boolean[SIZE][SIZE];
 
-        // 0 down, 1 left, 2 top, 3 right
-        // right +1, left -1
-        int[] dr = new int[] { 1, 0, -1, 0 };
-        int[] dc = new int[] { 0, -1, 0, 1 };
+        int r = MID;
+        int c = MID;
+        int d = 0; // down
 
-        int r = 0;
-        int c = 0;
-        int d = 0;
+        int maxR = r;
+        int minR = r;
+        int maxC = c;
+        int minC = c;
 
-        ary.add(new int[] { r, c });
+        int[] dr = new int[] {1, 0, -1, 0};
+        int[] dc = new int[] {0, -1, 0, 1};
+
+        visited[r][c] = true;
 
         for (int i = 0; i < N; i++) {
             char command = line.charAt(i);
 
-            if (command == 'F') { // 직진
+            if (command == 'F') {
                 r += dr[d];
                 c += dc[d];
+                visited[r][c] = true;
 
                 maxR = Math.max(maxR, r);
-                maxC = Math.max(maxC, c);
                 minR = Math.min(minR, r);
+                maxC = Math.max(maxC, c);
                 minC = Math.min(minC, c);
-
-                ary.add(new int[] { r, c });
-
-            } else if (command == 'R') { // 진행방향 90도 오른쪽
-                d = (d + 1) % 4;
-
-            } else if (command == 'L') { // 진행방향 90도 왼쪽
-                d = (d + 3) % 4;
-
             }
+            else if (command == 'L') d = (d + 3) % 4;
+
+            else if (command == 'R') d = (d + 1) % 4;
         }
 
-        maxR = Math.abs(maxR);
-        maxC = Math.abs(maxC);
-        minR = Math.abs(minR);
-        minC = Math.abs(minC);
+        StringBuilder sb = new StringBuilder();
 
-        // graph 만들기
-        char[][] graph = new char[maxR + minR + 1][maxC + minC + 1];
-
-        // 장애물 초기화
-        for (char[] g : graph)
-            Arrays.fill(g, '#');
-
-        for (int[] position : ary) {
-            int curR = position[0] + minR;
-            int curC = position[1] + minC;
-
-            graph[curR][curC] = '.';
-        }
-
-        for (int rr = 0; rr < graph.length; rr++) {
-            for (int cc = 0; cc < graph[0].length; cc++) {
-                System.out.print(graph[rr][cc]);
+        for (int i = minR; i <= maxR; i++) {
+            for (int j = minC; j <= maxC; j++) {
+                sb.append(visited[i][j] ? '.' : '#');
             }
-            System.out.println();
+            sb.append('\n');
         }
+
+        System.out.println(sb);
     }
 }
