@@ -47,7 +47,6 @@ public class Main {
                 // 2) 짝수초: 빈칸 전부 설치(나이 1)
                 boomSetting(graph);
             } else {
-                // 3) 홀수초(3,5,7...): 나이==3만 동시 폭발
                 boomGraph(graph);
             }
         }
@@ -58,6 +57,7 @@ public class Main {
 
     public static void printResult(int[][] graph) {
         StringBuilder sb = new StringBuilder();
+        // System.out.println();
 
         for (int[] gg : graph) {
             for (int g : gg) {
@@ -66,11 +66,15 @@ public class Main {
                 } else {
                     sb.append("O");
                 }
+                // System.out.print(g);
             }
             sb.append("\n");
+            // System.out.println();
         }
 
+        // System.out.println();
         System.out.println(sb);
+        // System.out.println();
     }
 
     public static void boomPlusTime(int cnt, int[][] graph) {
@@ -84,28 +88,29 @@ public class Main {
     }
 
     public static void boomGraph(int[][] graph) {
-        int[] dr = {1, -1, 0, 0};
-        int[] dc = {0, 0, 1, -1};
+        int[] dr = { 1, -1, 0, 0 };
+        int[] dc = { 0, 0, 1, -1 };
 
         boolean[][] clear = new boolean[graph.length][graph[0].length];
 
         for (int r = 0; r < graph.length; r++) {
             for (int c = 0; c < graph[0].length; c++) {
-                if (graph[r][c] == 3) { // 설치 후 3초 지난 폭탄만 폭발
+                if (graph[r][c] >= 3) { // 설치 후 3초 지난 폭탄만 폭발
                     clear[r][c] = true;
                     for (int d = 0; d < 4; d++) {
                         int nr = r + dr[d], nc = c + dc[d];
-                        if (nr < 0 || nr >= graph.length || nc < 0 || nc >= graph[0].length) continue;
+                        if (nr < 0 || nr >= graph.length || nc < 0 || nc >= graph[0].length)
+                            continue;
                         clear[nr][nc] = true;
                     }
                 }
             }
         }
 
-        // ★ 일괄 삭제
         for (int r = 0; r < graph.length; r++) {
             for (int c = 0; c < graph[0].length; c++) {
-                if (clear[r][c]) graph[r][c] = 0;
+                if (clear[r][c])
+                    graph[r][c] = 0;
             }
         }
     }
