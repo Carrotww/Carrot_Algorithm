@@ -23,11 +23,6 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
 
-        if (k >= 1000000) {
-            System.out.println(500000);
-            return;
-        }
-
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
             int val = Integer.parseInt(st.nextToken());
@@ -53,6 +48,6 @@ public class Main {
             }
         }
 
-        System.out.println(resultIdx);
+        System.out.println(maxValue);
     }
 }
