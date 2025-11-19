@@ -4,66 +4,71 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] nodes, int[][] edges) {
-
-        int maxNode = 0;
-        for (int n : nodes) maxNode = Math.max(maxNode, n);
-
-        List<Integer>[] graph = new List[maxNode + 1];
-        int[] indegree = new int[maxNode + 1];
-
-        for (int i = 0; i < maxNode; i++) {
-            graph[i] = new ArrayList<>();
-        }
-
         int[] result = new int[2];
 
+        int maxNode = 0;
+        for (int node : nodes) { maxNode = Math.max(maxNode, node); }
+        List<Integer>[] graph = new ArrayList[maxNode + 1];
+
+        for (int node : nodes) {
+            graph[node] = new ArrayList<>();
+        }
+        int[] indegree = new int[maxNode + 1];
+
         for (int[] edge : edges) {
-            int start = edge[0];
-            int end = edge[1];
-
-            indegree[start]++;
-            indegree[end]++;
-
-            graph[start].add(end);
-            graph[end].add(start);
+            int a = edge[0];
+            int b = edge[1];
+            graph[a].add(b);
+            graph[b].add(a);
+            indegree[a]++;
+            indegree[b]++;
         }
 
         int[] visited = new int[maxNode + 1];
 
+        // node를 순회하면서 홀수인지 짝수인지 역홀수인지 역짝수인지 변수 선언 후 ++
         for (int node : nodes) {
-            // 홀수 1 짝수 -1
-            int cnt = (indegree[node] & 1) == 0 ? -1 : 1;
-            // 홀수 1 짝수 -1
-            int v = (node & 1) == 0 ? -1 : 1;
+            int oddTree = 0;
+            int evenTree = 0;
+            int reverseOddTree = 0;
+            int reverseEvenTree = 0;
 
-            // 홀짝 = 1, 역홀짝 = -1
-            int rootTree = cnt * v;
-
-            // root는 제대로
-            // 자식들은 indegree -- 해야함
             if (visited[node] == 1) continue;
-            Deque<Integer> dq = new ArrayDeque<>();
+
+            visited[node] = 1;
+
+            ArrayDeque<Integer> dq = new ArrayDeque<>();
             dq.add(node);
-            boolean isTrue = true;
 
             while (!dq.isEmpty()) {
                 int cur = dq.poll();
-                visited[cur] = 1;
+
+                int childCnt = indegree[cur];
+                
+                if (childCnt % 2 == 0 && cur % 2 == 0) {
+                    evenTree++;
+                } else if (childCnt % 2 == 0 && cur % 2 == 1) {
+                    reverseOddTree++;
+                } else if (childCnt % 2 == 1 && cur % 2 == 0) {
+                    reverseEvenTree++;
+                } else {
+                    oddTree++;
+                }
 
                 for (int next : graph[cur]) {
                     if (visited[next] == 1) continue;
+                    visited[next] = 1;
 
-                    int nextCnt = ((indegree[next] - 1) & 1) == 0 ? -1 : 1;
-                    int nextV = (next & 1) == 0 ? -1 : 1;
-
-                    if (rootTree != (nextCnt * nextV)) isTrue = false;
                     dq.add(next);
                 }
             }
 
-            if (isTrue) {
-                int idx = rootTree == 1 ? 0 : 1;
-                result[idx]++;
+            if (oddTree + evenTree == 1) {
+                result[0]++;
+            }
+            
+            if (reverseOddTree + reverseEvenTree == 1) {
+                result[1]++;
             }
         }
 
