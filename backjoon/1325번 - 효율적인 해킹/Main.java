@@ -29,7 +29,7 @@ public class Main {
         List[] ary = new ArrayList[N + 1];
 
         for (int i = 0; i < N + 1; i++) {
-            ary[i] = new ArrayList<>();
+            ary[i] = new ArrayList<Integer>();
         }
 
         for (int i = 0; i < M; i++) {
@@ -37,29 +37,47 @@ public class Main {
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
 
-            ary[a].add(b);
             ary[b].add(a);
         }
 
-        boolean[] visited = new boolean[N + 1];
-
+        int[] result = new int[N + 1];
+        int[] visited = new int[N + 1];
+        int max = 0;
         for (int i = 1; i < N + 1; i++) {
-            if (visited[i]) continue;
-
-            bfs();
+            int cur = bfs(N, ary, i, visited, i);
+            max = Math.max(cur, max);
+            result[i] = cur;
         }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int r = 1; r < N + 1; r++) {
+            if (max == result[r]) {
+                sb.append(r);
+                sb.append(' ');
+            }
+        }
+
+        System.out.println(sb);
     }
 
-    public static int bfs(int n, List[] ary, int start) {
-        int cnt = 0;
+    public static int bfs(int n, List<Integer>[] ary, int start, int[] visited, int mark) {
+        int cnt = 1;
         Deque<Integer> queue = new ArrayDeque<>();
-        boolean[] visited = new boolean[n + 1];
 
         queue.add(start);
+        visited[start] = mark;
         
         while (!queue.isEmpty()) {
             int cur = queue.poll();
+            for (int next : ary[cur]) {
+                if (visited[next] != mark) {
+                    queue.add(next);
+                    visited[next] = mark;
+                    cnt++;
+                }
+            }
         }
-        return 0;
+        return cnt;
     }
 }
