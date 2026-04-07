@@ -1,4 +1,4 @@
-# 14889번: 스타트와 링크 - <img src="https://static.solved.ac/tier_small/10.svg" style="height:20px" /> Silver I
+# 14888번: 스타트와 링크 - <img src="https://static.solved.ac/tier_small/10.svg" style="height:20px" /> Silver I
 
 <!-- performance -->
 
