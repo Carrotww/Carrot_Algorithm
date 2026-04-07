@@ -35,25 +35,48 @@ public class Main {
 
         // ary [0] 기준으로 정렬이 되어 있으니 연속으로 증가하는 부분 순열 구하듯이 [1] 값을 기준으로 값을 구하자
 
-        int result = 1;
+        // int result = 1;
 
-        int[] dp = new int[N];
+        // int[] dp = new int[N];
+
+        // for (int i = 0; i < N; i++) {
+        //     int end = ary.get(i)[1];
+        //     dp[i] = 1;
+
+        //     for (int j = 0; j < i; j++) {
+        //         int start = ary.get(j)[1];
+
+        //         if (start < end) {
+        //             dp[i] = Math.max(dp[i], dp[j] + 1);
+        //         }
+        //     }
+
+        //     result = Math.max(result, dp[i]);
+        // }
+
+        // binary search (left bound)
+        int[] lis = new int[N];
+        int len = 0;
 
         for (int i = 0; i < N; i++) {
-            int end = ary.get(i)[1];
-            dp[i] = 1;
+            int target = ary.get(i)[1];
+            int left = 0;
+            int right = len;
 
-            for (int j = 0; j < i; j++) {
-                int start = ary.get(j)[1];
+            while (left < right) {
+                int mid = (right - left) / 2 + left;
 
-                if (start < end) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                if (lis[mid] < target) {
+                    left = mid + 1;
+                } else {
+                    right = mid;
                 }
             }
 
-            result = Math.max(result, dp[i]);
+            lis[left] = target;
+            if (left == len) len++;
         }
 
-        System.out.println(N - result);
+        System.out.println(N - len);
     }
 }
